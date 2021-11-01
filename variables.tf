@@ -130,3 +130,72 @@ variable "argo_sync_policy" {
   description = "ArgoCD syncPolicy manifest parameter"
   default     = {}
 }
+
+variable "eks_cluster_name" {
+  type        = string
+  default     = ""
+  description = "The name of the cluster"
+}
+
+variable "eks_cluster_id" {
+  type        = string
+  default     = ""
+  description = "The name of the cluster"
+}
+variable "thanos_s3_iam_role" {
+  type        = bool
+  default     = false
+}
+
+variable "kms_key_arn" {
+  default = []
+}
+
+variable "name" {
+  type        = string
+  default     = null
+}
+variable "stage" {
+  type        = string
+  default     = null
+}
+variable "environment" {
+  type        = string
+  default     = null
+}
+variable "namespace" {
+  type        = string
+  default     = null
+}
+variable "tags" {
+  type        = map(any)
+  default     = null
+}
+
+variable "context" {
+  type        = any
+  default     = null
+}
+
+variable "cluster_identity_oidc_issuer" {
+  type        = string
+  default     = ""
+  description = "The OIDC Identity issuer for the cluster"
+}
+
+variable "cluster_identity_oidc_issuer_arn" {
+  type        = string
+  default     = ""
+  description = "The OIDC Identity issuer ARN for the cluster that can be used to associate IAM roles with a service account"
+}
+
+variable "prometheus_k8s_service_account_name" {
+  type        = string
+  default     = "kube-prometheus-prometheus"
+  description = "Prometheus service account"
+}
+
+variable "thanos_s3_arn" {
+  type        = string
+  default     = ""
+}
