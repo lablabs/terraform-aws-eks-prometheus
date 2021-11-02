@@ -12,7 +12,7 @@ resource helm_release this {
   atomic           = var.helm_atomic
 
   values = [
-    var.values
+    data.utils_deep_merge_yaml.values[0].output
   ]
 
   dynamic "set" {
