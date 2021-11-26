@@ -147,34 +147,13 @@ variable "thanos_s3_iam_role" {
   default     = false
 }
 
+variable "thanos_s3_arn" {
+  type        = string
+  default     = ""
+}
+
 variable "kms_key_arn" {
   default = []
-}
-
-variable "name" {
-  type        = string
-  default     = null
-}
-variable "stage" {
-  type        = string
-  default     = null
-}
-variable "environment" {
-  type        = string
-  default     = null
-}
-variable "namespace" {
-  type        = string
-  default     = null
-}
-variable "tags" {
-  type        = map(any)
-  default     = null
-}
-
-variable "context" {
-  type        = any
-  default     = null
 }
 
 variable "cluster_identity_oidc_issuer" {
@@ -193,9 +172,4 @@ variable "prometheus_k8s_service_account_name" {
   type        = string
   default     = "kube-prometheus-prometheus"
   description = "Prometheus service account"
-}
-
-variable "thanos_s3_arn" {
-  type        = string
-  default     = ""
 }
