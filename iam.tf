@@ -72,6 +72,6 @@ resource "aws_iam_role_policy_attachment" "prometheus" {
 }
 
 output "prometheus_sa_role_arn" {
-  value       = aws_iam_role.prometheus[0].arn
+  value       = try(aws_iam_role.prometheus[0].arn, {})
   description = "Prometheus Service Account role ARN"
 }
