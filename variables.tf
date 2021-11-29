@@ -1,18 +1,25 @@
-
-# kube-prometheus
-
 variable "enabled" {
   type        = bool
   default     = true
   description = "Variable indicating whether deployment is enabled"
 }
 
-# Helm
+variable "eks_cluster_id" {
+  type        = string
+  default     = ""
+  description = "The name of the cluster"
+}
 
-variable "helm_create_namespace" {
-  type        = bool
-  default     = true
-  description = "Create the namespace if it does not yet exist"
+variable "cluster_identity_oidc_issuer" {
+  type        = string
+  default     = ""
+  description = "The OIDC Identity issuer for the cluster"
+}
+
+variable "cluster_identity_oidc_issuer_arn" {
+  type        = string
+  default     = ""
+  description = "The OIDC Identity issuer ARN for the cluster that can be used to associate IAM roles with a service account"
 }
 
 variable "helm_chart_name" {
@@ -37,6 +44,12 @@ variable "helm_repo_url" {
   type        = string
   default     = "https://charts.bitnami.com/bitnami"
   description = "Helm repository"
+}
+
+variable "helm_create_namespace" {
+  type        = bool
+  default     = true
+  description = "Create the namespace if it does not yet exist"
 }
 
 variable "helm_wait" {
@@ -79,6 +92,26 @@ variable "k8s_namespace" {
   type        = string
   default     = "monitoring"
   description = "The K8s namespace in which the ingress-nginx has been created"
+}
+
+variable "thanos_s3_iam_role" {
+  type    = bool
+  default = false
+}
+
+variable "thanos_s3_arn" {
+  type    = string
+  default = ""
+}
+
+variable "kms_key_arn" {
+  default = []
+}
+
+variable "prometheus_k8s_service_account_name" {
+  type        = string
+  default     = "kube-prometheus-prometheus"
+  description = "Prometheus service account"
 }
 
 # ArgoCD
@@ -129,47 +162,4 @@ variable "argo_info" {
 variable "argo_sync_policy" {
   description = "ArgoCD syncPolicy manifest parameter"
   default     = {}
-}
-
-variable "eks_cluster_name" {
-  type        = string
-  default     = ""
-  description = "The name of the cluster"
-}
-
-variable "eks_cluster_id" {
-  type        = string
-  default     = ""
-  description = "The name of the cluster"
-}
-variable "thanos_s3_iam_role" {
-  type        = bool
-  default     = false
-}
-
-variable "thanos_s3_arn" {
-  type        = string
-  default     = ""
-}
-
-variable "kms_key_arn" {
-  default = []
-}
-
-variable "cluster_identity_oidc_issuer" {
-  type        = string
-  default     = ""
-  description = "The OIDC Identity issuer for the cluster"
-}
-
-variable "cluster_identity_oidc_issuer_arn" {
-  type        = string
-  default     = ""
-  description = "The OIDC Identity issuer ARN for the cluster that can be used to associate IAM roles with a service account"
-}
-
-variable "prometheus_k8s_service_account_name" {
-  type        = string
-  default     = "kube-prometheus-prometheus"
-  description = "Prometheus service account"
 }

@@ -3,7 +3,7 @@ locals {
     prometheus : {
       serviceAccount : {
         annotations : {
-          "eks.amazonaws.com/role-arn" : "${var.enabled ? aws_iam_role.prometheus[0].arn : null}"
+          "eks.amazonaws.com/role-arn" : "${try(aws_iam_role.prometheus[0].arn, {})}"
         }
       }
     }

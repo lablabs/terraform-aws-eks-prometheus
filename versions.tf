@@ -13,7 +13,7 @@ terraform {
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = ">= 2.4"
+      version = ">= 2.6"
     }
     utils = {
       source  = "cloudposse/utils"

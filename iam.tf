@@ -1,12 +1,12 @@
 locals {
-  object_name          = "${module.label.namespace}-${module.label.environment}-${module.label.stage}-${module.label.name}"
+  object_name = "${var.namespace}-${var.environment}-${var.stage}-${var.name}"
 }
 
 data "aws_iam_policy_document" "prometheus" {
   count = var.enabled && var.thanos_s3_iam_role ? 1 : 0
   statement {
-    sid     = "FullObjectStorePermissions"
-    effect  = "Allow"
+    sid    = "FullObjectStorePermissions"
+    effect = "Allow"
     actions = [
       "s3:*"
     ]
@@ -62,16 +62,11 @@ resource "aws_iam_role" "prometheus" {
   count              = var.enabled && var.thanos_s3_iam_role ? 1 : 0
   name               = "${local.object_name}-prometheus-role"
   assume_role_policy = data.aws_iam_policy_document.prometheus_assume[0].json
-  tags               = module.label.tags
+  tags               = var.tags
 }
 
 resource "aws_iam_role_policy_attachment" "prometheus" {
   count      = var.enabled && var.thanos_s3_iam_role ? 1 : 0
   role       = aws_iam_role.prometheus[0].name
   policy_arn = aws_iam_policy.prometheus[0].arn
-}
-
-output "prometheus_sa_role_arn" {
-  value       = try(aws_iam_role.prometheus[0].arn, {})
-  description = "Prometheus Service Account role ARN"
 }
