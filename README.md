@@ -1,4 +1,4 @@
-# Thanos Terraform module
+# Prometheus Terraform module
 
 [![labyrinth labs logo](ll-logo.png)](https://lablabs.io/)
 
@@ -6,7 +6,7 @@ We help companies build, run, deploy and scale software and infrastructure by em
 
 ---
 
-![Terraform validation](https://github.com/lablabs/terraform-aws-eks-grafana/workflows/Terraform%20validation/badge.svg?branch=main)
+![Terraform validation](https://github.com/lablabs/terraform-aws-eks-prometheus/workflows/Terraform%20validation/badge.svg?branch=main)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-success?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
 ## Description
