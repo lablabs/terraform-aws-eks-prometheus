@@ -8,7 +8,12 @@ data "aws_iam_policy_document" "prometheus" {
     sid    = "FullObjectStorePermissions"
     effect = "Allow"
     actions = [
-      "s3:*"
+      "s3:ListBucket",
+      "s3:GetObject",
+      "s3:DeleteObject",
+      "s3:PutObject",
+      "s3:CreateBucket",
+      "s3:DeleteBucket"
     ]
     resources = [var.thanos_s3_arn, "${var.thanos_s3_arn}/*"]
   }
@@ -16,9 +21,12 @@ data "aws_iam_policy_document" "prometheus" {
   statement {
     sid = "KMS"
     actions = [
-      "kms:GenerateDataKey",
-      "kms:Encrypt",
-      "kms:Decrypt"
+      "kms:Encrypt*",
+      "kms:Decrypt*",
+      "kms:ReEncrypt*",
+      "kms:CreateGrant",
+      "kms:GenerateDataKey*",
+      "kms:Describe*"
     ]
     resources = var.kms_key_arn
     effect    = "Allow"
