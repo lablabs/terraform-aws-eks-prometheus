@@ -43,7 +43,7 @@ resource "helm_release" "argocd_application" {
   ]
 }
 
-resource "kubernetes_manifest" "self" {
+resource "kubernetes_manifest" "this" {
   count = var.enabled && var.argo_application_enabled && !var.argo_application_use_helm ? 1 : 0
   manifest = {
     "apiVersion" = "argoproj.io/v1alpha1"

@@ -4,23 +4,17 @@ variable "enabled" {
   description = "Variable indicating whether deployment is enabled"
 }
 
-variable "eks_cluster_id" {
-  type        = string
-  default     = ""
-  description = "The name of the cluster"
-}
-
 variable "cluster_identity_oidc_issuer" {
   type        = string
-  default     = ""
   description = "The OIDC Identity issuer for the cluster"
 }
 
 variable "cluster_identity_oidc_issuer_arn" {
   type        = string
-  default     = ""
   description = "The OIDC Identity issuer ARN for the cluster that can be used to associate IAM roles with a service account"
 }
+
+# Helm
 
 variable "helm_chart_name" {
   type        = string
@@ -76,6 +70,43 @@ variable "helm_atomic" {
   description = "If set, installation process purges chart on fail. The wait flag will be set automatically if atomic is used. Defaults to false."
 }
 
+# Values
+
+variable "k8s_namespace" {
+  type        = string
+  default     = "prometheus"
+  description = "The K8s namespace in which the ingress-nginx has been created"
+}
+
+variable "k8s_rbac_create" {
+  type        = bool
+  default     = true
+  description = "Whether to create and use RBAC resources"
+}
+
+variable "k8s_service_account_create" {
+  type        = bool
+  default     = true
+  description = "Whether to create Service Account"
+}
+
+variable "k8s_irsa_role_name_prefix" {
+  type        = string
+  default     = "prometheus-irsa"
+  description = "The IRSA role name prefix for prometheus"
+}
+
+variable "k8s_irsa_additional_policies" {
+  type        = map(string)
+  default     = {}
+  description = "Map of the additional policies to be attached to default role. Where key is arbiraty id and value is policy arn."
+}
+
+variable "k8s_role_arn" {
+  default     = ""
+  description = "Whether to create and use default role or use existing role. Useful for a variety of use cases, such as cross account access. Default (empty string) use default generted role."
+}
+
 variable "values" {
   type        = string
   default     = ""
@@ -86,32 +117,6 @@ variable "settings" {
   type        = map(any)
   default     = {}
   description = "Additional settings which will be passed to the Helm chart values, see https://artifacthub.io/packages/helm/argo/argo-cd"
-}
-
-variable "k8s_namespace" {
-  type        = string
-  default     = "monitoring"
-  description = "The K8s namespace in which the ingress-nginx has been created"
-}
-
-variable "thanos_s3_iam_role" {
-  type    = bool
-  default = false
-}
-
-variable "thanos_s3_arn" {
-  type    = string
-  default = ""
-}
-
-variable "kms_key_arn" {
-  default = []
-}
-
-variable "prometheus_k8s_service_account_name" {
-  type        = string
-  default     = "kube-prometheus-prometheus"
-  description = "Prometheus service account"
 }
 
 # ArgoCD

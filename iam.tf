@@ -1,51 +1,15 @@
-locals {
-  object_name = "${var.namespace}-${var.environment}-${var.stage}-${var.name}"
+resource "aws_iam_role_policy_attachment" "this" {
+  for_each = local.k8s_irsa_role_create ? var.k8s_irsa_additional_policies : {}
+
+  role       = aws_iam_role.this[0].name
+  policy_arn = each.value
 }
 
-data "aws_iam_policy_document" "prometheus" {
-  count = var.enabled && var.thanos_s3_iam_role ? 1 : 0
-  statement {
-    sid    = "FullObjectStorePermissions"
-    effect = "Allow"
-    actions = [
-      "s3:ListBucket",
-      "s3:GetObject",
-      "s3:DeleteObject",
-      "s3:PutObject",
-      "s3:CreateBucket",
-      "s3:DeleteBucket"
-    ]
-    resources = [var.thanos_s3_arn, "${var.thanos_s3_arn}/*"]
-  }
+data "aws_iam_policy_document" "this_irsa" {
+  count = local.k8s_irsa_role_create ? 1 : 0
 
   statement {
-    sid = "KMS"
-    actions = [
-      "kms:Encrypt*",
-      "kms:Decrypt*",
-      "kms:ReEncrypt*",
-      "kms:CreateGrant",
-      "kms:GenerateDataKey*",
-      "kms:Describe*"
-    ]
-    resources = var.kms_key_arn
-    effect    = "Allow"
-  }
-}
-
-resource "aws_iam_policy" "prometheus" {
-  count       = var.enabled && var.thanos_s3_iam_role ? 1 : 0
-  name        = "${local.object_name}-prometheus-policy"
-  path        = "/"
-  description = "Policy for prometheus service account"
-
-  policy = data.aws_iam_policy_document.prometheus[0].json
-}
-
-data "aws_iam_policy_document" "prometheus_assume" {
-  count = var.enabled && var.thanos_s3_iam_role ? 1 : 0
-
-  statement {
+    effect  = "Allow"
     actions = ["sts:AssumeRoleWithWebIdentity"]
 
     principals {
@@ -54,27 +18,18 @@ data "aws_iam_policy_document" "prometheus_assume" {
     }
 
     condition {
-      test     = "ForAnyValue:StringEquals"
+      test     = "StringEquals"
       variable = "${replace(var.cluster_identity_oidc_issuer, "https://", "")}:sub"
-
       values = [
-        "system:serviceaccount:${var.k8s_namespace}:${var.prometheus_k8s_service_account_name}",
+        "system:serviceaccount:${var.k8s_namespace}:${local.k8s_service_account_name}",
       ]
     }
-
-    effect = "Allow"
   }
 }
 
-resource "aws_iam_role" "prometheus" {
-  count              = var.enabled && var.thanos_s3_iam_role ? 1 : 0
-  name               = "${local.object_name}-prometheus-role"
-  assume_role_policy = data.aws_iam_policy_document.prometheus_assume[0].json
-  tags               = var.tags
-}
+resource "aws_iam_role" "this" {
+  count = local.k8s_irsa_role_create ? 1 : 0
 
-resource "aws_iam_role_policy_attachment" "prometheus" {
-  count      = var.enabled && var.thanos_s3_iam_role ? 1 : 0
-  role       = aws_iam_role.prometheus[0].name
-  policy_arn = aws_iam_policy.prometheus[0].arn
+  name               = "${var.k8s_irsa_role_name_prefix}-${var.helm_chart_name}"
+  assume_role_policy = data.aws_iam_policy_document.this_irsa[0].json
 }
