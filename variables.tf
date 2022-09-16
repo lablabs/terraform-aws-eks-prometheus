@@ -173,3 +173,14 @@ variable "argo_spec" {
   description = "ArgoCD additional spec configuration"
   default     = {}
 }
+
+variable "argo_kubernetes_manifest_field_manager_name" {
+  default     = "Terraform"
+  description = "The name of the field manager to use when applying the kubernetes manifest resource. Defaults to Terraform"
+}
+
+variable "argo_kubernetes_manifest_field_manager_force_conflicts" {
+  type        = bool
+  default     = false
+  description = "Forcibly override any field manager conflicts when applying the kubernetes manifest resource"
+}
