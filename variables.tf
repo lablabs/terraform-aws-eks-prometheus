@@ -103,6 +103,7 @@ variable "k8s_irsa_additional_policies" {
 }
 
 variable "k8s_role_arn" {
+  type        = string
   default     = ""
   description = "Whether to create and use default role or use existing role. Useful for a variety of use cases, such as cross account access. Default (empty string) use default generted role."
 }
@@ -140,6 +141,7 @@ variable "argo_application_use_helm" {
 }
 
 variable "argo_application_values" {
+  type        = string
   default     = ""
   description = "Value overrides to use when deploying argo application object with helm"
 }
@@ -157,6 +159,10 @@ variable "argo_project" {
 }
 
 variable "argo_info" {
+  type = list(object({
+    name  = string
+    value = string
+  }))
   default = [{
     "name"  = "terraform"
     "value" = "true"
@@ -165,16 +171,19 @@ variable "argo_info" {
 }
 
 variable "argo_sync_policy" {
+  type        = any
   description = "ArgoCD syncPolicy manifest parameter"
   default     = {}
 }
 
 variable "argo_spec" {
+  type        = any
   description = "ArgoCD additional spec configuration"
   default     = {}
 }
 
 variable "argo_kubernetes_manifest_field_manager_name" {
+  type        = string
   default     = "Terraform"
   description = "The name of the field manager to use when applying the kubernetes manifest resource. Defaults to Terraform"
 }

@@ -8,7 +8,8 @@ on:
 
 env:
   TERRAFORM_DOCS_VERSION: "v0.16.0"
-  TFLINT_VERSION: "v0.40.1"
+  TFLINT_VERSION: "v0.36.2"
+  DETECT_SECRETS_VERSION: "1.3.0"
 
 jobs:
   terraform-validation:
@@ -68,7 +69,7 @@ jobs:
       - shell: bash
         name: "INSTALL: detect-secrets"
         run: |
-          pip install detect-secrets
+          pip install detect-secrets==${{ env.DETECT_SECRETS_VERSION }}
 
       - shell: bash
         name: "INSTALL: tflint"
