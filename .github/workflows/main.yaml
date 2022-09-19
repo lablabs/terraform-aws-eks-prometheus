@@ -8,8 +8,7 @@ on:
 
 env:
   TERRAFORM_DOCS_VERSION: "v0.16.0"
-  TFLINT_VERSION: "v0.33.1"
-  TFSEC_VERSION: "v0.60.1"
+  TFLINT_VERSION: "v0.40.1"
 
 jobs:
   terraform-validation:
@@ -83,28 +82,6 @@ jobs:
       - shell: bash
         name: "SETUP: tflint path"
         run: echo '~/tflint/bin/' >> $GITHUB_PATH
-
-      - uses: actions/cache@v3.0.8
-        id: cache-tfsec
-        name: "CACHE: tfsec"
-        with:
-          path: |
-            ~/tfsec/bin/
-          key: ${{ runner.os }}-tfsec-${{ env.TFSEC_VERSION }}
-          restore-keys: |
-            ${{ runner.os }}-tfsec-
-
-      - shell: bash
-        name: "INSTALL: tfsec"
-        if: steps.cache-tfsec.outputs.cache-hit != 'true'
-        run: |
-          wget https://github.com/tfsec/tfsec/releases/download/${{ env.TFSEC_VERSION }}/tfsec-linux-amd64
-          mkdir -p ~/tfsec/bin/
-          install tfsec-linux-amd64 ~/tfsec/bin/
-
-      - shell: bash
-        name: "SETUP: tfsec path"
-        run: echo '~/tfsec/bin/' >> $GITHUB_PATH
 
       - uses: pre-commit/action@v3.0.0
         name: "RUN: pre-commit"
