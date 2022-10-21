@@ -37,6 +37,7 @@ module "prometheus_helm" {
   values = local.values
 }
 
+# Please, see README.md and Argo Kubernetes deployment method for implications of using Kubernetes installation method
 module "prometheus_argo_kubernetes" {
   source = "../../"
 
