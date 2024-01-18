@@ -14,7 +14,7 @@ variable "cluster_identity_oidc_issuer_arn" {
   description = "The OIDC Identity issuer ARN for the cluster that can be used to associate IAM roles with a service account"
 }
 
-# Helm
+# ================ common variables (required) ================
 
 variable "helm_chart_name" {
   type        = string
@@ -55,7 +55,7 @@ variable "namespace" {
 variable "settings" {
   type        = map(any)
   default     = {}
-  description = "Additional settings which will be passed to the Helm chart values, see https://artifacthub.io/packages/helm/bitnami/kube-prometheus"
+  description = "Additional helm sets which will be passed to the Helm chart values, see https://artifacthub.io/packages/helm/bitnami/kube-prometheus"
 }
 
 variable "values" {
@@ -63,6 +63,8 @@ variable "values" {
   default     = ""
   description = "Additional yaml encoded values which will be passed to the Helm chart, see https://artifacthub.io/packages/helm/bitnami/kube-prometheus"
 }
+
+# ================ IRSA variables (optional) ================
 
 variable "rbac_create" {
   type        = bool
@@ -106,7 +108,7 @@ variable "irsa_tags" {
   description = "IRSA resources tags"
 }
 
-# ArgoCD
+# ================ argo variables (required) ================
 
 variable "argo_namespace" {
   type        = string
@@ -124,6 +126,30 @@ variable "argo_helm_enabled" {
   type        = bool
   default     = false
   description = "If set to true, the ArgoCD Application manifest will be deployed using Kubernetes provider as a Helm release. Otherwise it'll be deployed as a Kubernetes manifest. See Readme for more info"
+}
+
+variable "argo_helm_wait_timeout" {
+  type        = string
+  default     = "10m"
+  description = "Timeout for ArgoCD Application Helm release wait job"
+}
+
+variable "argo_helm_wait_node_selector" {
+  type        = map(string)
+  default     = {}
+  description = "Node selector for ArgoCD Application Helm release wait job"
+}
+
+variable "argo_helm_wait_tolerations" {
+  type        = list(any)
+  default     = []
+  description = "Tolerations for ArgoCD Application Helm release wait job"
+}
+
+variable "argo_helm_wait_backoff_limit" {
+  type        = number
+  default     = 6
+  description = "Backoff limit for ArgoCD Application Helm release wait job"
 }
 
 variable "argo_destination_server" {
@@ -188,7 +214,7 @@ variable "argo_helm_values" {
 
 variable "argo_kubernetes_manifest_computed_fields" {
   type        = list(string)
-  default     = ["metadata.labels", "metadata.annotations"]
+  default     = ["metadata.labels", "metadata.annotations", "metadata.finalizers"]
   description = "List of paths of fields to be handled as \"computed\". The user-configured value for the field will be overridden by any different value returned by the API after apply."
 }
 

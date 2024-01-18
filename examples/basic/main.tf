@@ -6,7 +6,7 @@ locals {
   })
 }
 
-module "prometheus_disabled" {
+module "addon_installation_disabled" {
   source = "../../"
 
   enabled = false
@@ -15,16 +15,7 @@ module "prometheus_disabled" {
   cluster_identity_oidc_issuer_arn = module.eks_cluster.eks_cluster_identity_oidc_issuer_arn
 }
 
-module "prometheus_without_irsa_role" {
-  source = "../../"
-
-  irsa_role_create                 = false
-  cluster_identity_oidc_issuer     = module.eks_cluster.eks_cluster_identity_oidc_issuer
-  cluster_identity_oidc_issuer_arn = module.eks_cluster.eks_cluster_identity_oidc_issuer_arn
-}
-
-
-module "prometheus_helm" {
+module "addon_installation_helm" {
   source = "../../"
 
   enabled           = true
@@ -38,7 +29,7 @@ module "prometheus_helm" {
 }
 
 # Please, see README.md and Argo Kubernetes deployment method for implications of using Kubernetes installation method
-module "prometheus_argo_kubernetes" {
+module "addon_installation_argo_kubernetes" {
   source = "../../"
 
   enabled           = true
@@ -57,7 +48,7 @@ module "prometheus_argo_kubernetes" {
 }
 
 
-module "prometheus_argo_helm" {
+module "addon_installation_argo_helm" {
   source = "../../"
 
   enabled           = true
