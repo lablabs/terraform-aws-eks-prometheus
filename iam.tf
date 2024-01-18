@@ -28,7 +28,7 @@ data "aws_iam_policy_document" "this_irsa" {
 
 resource "aws_iam_role" "this" {
   count              = local.irsa_role_create ? 1 : 0
-  name               = "${var.irsa_role_name_prefix}-${var.helm_chart_name}"
+  name               = "${var.irsa_role_name_prefix}-${var.helm_chart_name}" # tflint-ignore: aws_iam_role_invalid_name
   assume_role_policy = data.aws_iam_policy_document.this_irsa[0].json
   tags               = var.irsa_tags
 }
