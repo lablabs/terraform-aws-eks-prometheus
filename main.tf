@@ -1,16 +1,16 @@
 /**
- * # AWS EKS Prometheus Terraform module
+ * # AWS EKS Prometheus Operator Terraform module
  *
- * A Terraform module to deploy the [Prometheus](https://prometheus.io/) on Amazon EKS cluster.
+ * A Terraform module to deploy the [Prometheus](https://prometheus.io/) operator on Amazon EKS cluster.
  *
  * [![Terraform validate](https://github.com/lablabs/terraform-aws-eks-prometheus/actions/workflows/validate.yaml/badge.svg)](https://github.com/lablabs/terraform-aws-eks-prometheus/actions/workflows/validate.yaml)
  * [![pre-commit](https://github.com/lablabs/terraform-aws-eks-prometheus/actions/workflows/pre-commit.yaml/badge.svg)](https://github.com/lablabs/terraform-aws-eks-prometheus/actions/workflows/pre-commit.yaml)
 */
 locals {
   addon = {
-    name = "prometheus"
+    name      = "kube-prometheus"
+    namespace = "prometheus"
 
-    helm_chart_name    = "kube-prometheus"
     helm_chart_version = "9.5.13"
     helm_repo_url      = "https://charts.bitnami.com/bitnami"
   }

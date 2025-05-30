@@ -1,31 +1,16 @@
 moved {
-  from = aws_iam_role.this[0]
-  to   = module.addon-irsa["prometheus"].aws_iam_role.this[0]
+  from = kubernetes_manifest.this
+  to   = module.addon.kubernetes_manifest.this
 }
 
 moved {
-  from = aws_iam_policy.this[0]
-  to   = module.addon-irsa["prometheus"].aws_iam_policy.this[0]
+  from = helm_release.this
+  to   = module.addon.helm_release.this
 }
 
 moved {
-  from = aws_iam_role_policy_attachment.this[0]
-  to   = module.addon-irsa["prometheus"].aws_iam_role_policy_attachment.this[0]
-}
-
-moved {
-  from = kubernetes_manifest.this[0]
-  to   = module.addon.kubernetes_manifest.this[0]
-}
-
-moved {
-  from = helm_release.this[0]
-  to   = module.addon.helm_release.this[0]
-}
-
-moved {
-  from = helm_release.argo_application[0]
-  to   = module.addon.helm_release.argo_application[0]
+  from = helm_release.argo_application
+  to   = module.addon.helm_release.argo_application
 }
 
 moved {
@@ -46,4 +31,24 @@ moved {
 moved {
   from = kubernetes_service_account.helm_argo_application_wait
   to   = module.addon.kubernetes_service_account.helm_argo_application_wait
+}
+
+moved {
+  from = aws_iam_role.this
+  to   = module.addon-irsa["kube-prometheus"].aws_iam_role.this
+}
+
+moved {
+  from = aws_iam_policy.this
+  to   = module.addon-irsa["kube-prometheus"].aws_iam_policy.this
+}
+
+moved {
+  from = aws_iam_role_policy_attachment.this
+  to   = module.addon-irsa["kube-prometheus"].aws_iam_role_policy_attachment.this
+}
+
+moved {
+  from = aws_iam_role_policy_attachment.this_additional
+  to   = module.addon-irsa["kube-prometheus"].aws_iam_role_policy_attachment.this_additional
 }
