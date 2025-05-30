@@ -4,9 +4,8 @@
  * A Terraform module to deploy the [Prometheus](https://prometheus.io/) on Amazon EKS cluster.
  *
  * [![Terraform validate](https://github.com/lablabs/terraform-aws-eks-prometheus/actions/workflows/validate.yaml/badge.svg)](https://github.com/lablabs/terraform-aws-eks-prometheus/actions/workflows/validate.yaml)
- * [![pre-commit](https://github.com/lablabs/terraform-aws-eks-prometheus/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/lablabs/terraform-aws-eks-prometheus/actions/workflows/pre-commit.yml)
+ * [![pre-commit](https://github.com/lablabs/terraform-aws-eks-prometheus/actions/workflows/pre-commit.yaml/badge.svg)](https://github.com/lablabs/terraform-aws-eks-prometheus/actions/workflows/pre-commit.yaml)
 */
-
 locals {
   addon = {
     name = "prometheus"
@@ -17,8 +16,7 @@ locals {
   }
 
   addon_irsa = {
-    (local.addon.name) = {
-    }
+    (local.addon.name) = {}
   }
 
   addon_values = yamlencode({
