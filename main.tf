@@ -24,12 +24,14 @@ locals {
       create = module.addon-irsa[local.addon.name].rbac_create
     }
 
-    serviceAccount = {
-      create = module.addon-irsa[local.addon.name].service_account_create
-      name   = module.addon-irsa[local.addon.name].service_account_name
-      annotations = module.addon-irsa[local.addon.name].irsa_role_enabled ? {
-        "eks.amazonaws.com/role-arn" = module.addon-irsa[local.addon.name].iam_role_attributes.arn
-      } : tomap({})
+    prometheus = {
+      serviceAccount = {
+        create = module.addon-irsa[local.addon.name].service_account_create
+        name   = module.addon-irsa[local.addon.name].service_account_name
+        annotations = module.addon-irsa[local.addon.name].irsa_role_enabled ? {
+          "eks.amazonaws.com/role-arn" = module.addon-irsa[local.addon.name].iam_role_attributes.arn
+        } : tomap({})
+      }
     }
   })
 
