@@ -11,8 +11,8 @@ locals {
     name      = "kube-prometheus"
     namespace = "prometheus"
 
-    helm_chart_version = "9.5.13"
-    helm_repo_url      = "https://charts.bitnami.com/bitnami"
+    helm_repo_url      = "https://prometheus-community.github.io/helm-charts"
+    helm_chart_version = "75.13.0"
   }
 
   addon_irsa = {
@@ -20,10 +20,6 @@ locals {
   }
 
   addon_values = yamlencode({
-    rbac = {
-      create = module.addon-irsa[local.addon.name].rbac_create
-    }
-
     prometheus = {
       serviceAccount = {
         create = module.addon-irsa[local.addon.name].service_account_create
