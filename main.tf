@@ -20,6 +20,12 @@ locals {
   }
 
   addon_values = yamlencode({
+    global = {
+      rbac = {
+        create = module.addon-irsa[local.addon.name].rbac_create
+      }
+    }
+
     prometheus = {
       serviceAccount = {
         create = module.addon-irsa[local.addon.name].service_account_create
