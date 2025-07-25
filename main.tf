@@ -8,7 +8,7 @@
 */
 locals {
   addon = {
-    name      = "kube-prometheus"
+    name      = "kube-prometheus-stack"
     namespace = "prometheus"
 
     helm_repo_url      = "https://prometheus-community.github.io/helm-charts"
