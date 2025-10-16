@@ -12,7 +12,7 @@ locals {
     namespace = "prometheus"
 
     helm_repo_url      = "https://prometheus-community.github.io/helm-charts"
-    helm_chart_version = "75.13.0"
+    helm_chart_version = "78.2.1"
   }
 
   addon_irsa = {
